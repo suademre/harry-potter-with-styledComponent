@@ -1,23 +1,70 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Card from "./components/Card";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
-function App() {
+function App({ data }) {
+  const [activeHouse, setActiveHouse] = useState("");
+
+  function handleHouseButtonClick(house) {
+    setActiveHouse(house);
+  }
+
+  const filteredData = data.filter(
+    (character) => character.house === activeHouse || activeHouse === ""
+  );
+
+  //favorite
+  const [favorites, setFavorite] = useState(() => {
+    //set default value
+    if (localStorage.getItem("favoritesLocalStorage")) {
+      return JSON.parse(localStorage.getItem("favoritesLocalStorage"));
+    } else {
+      return [];
+    }
+  });
+
+  function handleFavoriteButtonClick(characterName) {
+    const isFavorite = favorites.includes(characterName);
+    let newFavorites;
+    if (isFavorite) {
+      // Remove from favorites
+      newFavorites = favorites.filter((item) => {
+        if (item === characterName) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+    } else {
+      // Add to favorites
+      newFavorites = favorites.concat(characterName);
+    }
+    setFavorite(newFavorites);
+    localStorage.setItem("favoritesLocalStorage", JSON.stringify(newFavorites));
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      {filteredData.map((character) => (
+        <Card
+          key={character.name}
+          characterName={character.name}
+          house={character.house}
+          imgUrl={character.image}
+          actor={character.actor}
+          gender={character.gender}
+          birthday={character.dateOfBirth}
+          yearOfBirth={character.yearOfBirth}
+          onFavoriteButtonClick={handleFavoriteButtonClick}
+          isFavorite={favorites.indexOf(character.name) > -1}
+          favorites={favorites}
+        />
+      ))}
+      <Footer
+        activeHouse={activeHouse}
+        onHouseButtonClick={handleHouseButtonClick}
+      />
     </div>
   );
 }
