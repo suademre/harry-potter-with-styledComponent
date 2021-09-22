@@ -1,11 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import data from "./data";
+import harryPotterData from "./data.json";
+import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App data={data} />
+    <Router>
+      <App harryPotterData={harryPotterData} />
+    </Router>
   </React.StrictMode>,
   document.getElementById("root")
 );
