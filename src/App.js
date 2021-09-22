@@ -1,72 +1,35 @@
-import React, { useState } from "react";
-import Card from "./components/Card";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
+import React from "react";
+import { Route, Switch } from "react-router";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import CharacterCreateForm from "./pages/CharacterCreateForm";
+import HarryPotterCaharacter from "./pages/HarryPotterCaharacter";
 
-function App({ data }) {
-  const [activeHouse, setActiveHouse] = useState("");
-
-  function handleHouseButtonClick(house) {
-    setActiveHouse(house);
-  }
-
-  const filteredData = data.filter(
-    (character) => character.house === activeHouse || activeHouse === ""
-  );
-
-  //favorite
-  const [favorites, setFavorite] = useState(() => {
-    //set default value
-    if (localStorage.getItem("favoritesLocalStorage")) {
-      return JSON.parse(localStorage.getItem("favoritesLocalStorage"));
-    } else {
-      return [];
-    }
-  });
-
-  function handleFavoriteButtonClick(characterName) {
-    const isFavorite = favorites.includes(characterName);
-    let newFavorites;
-    if (isFavorite) {
-      // Remove from favorites
-      newFavorites = favorites.filter((item) => {
-        if (item === characterName) {
-          return false;
-        } else {
-          return true;
-        }
-      });
-    } else {
-      // Add to favorites
-      newFavorites = favorites.concat(characterName);
-    }
-    setFavorite(newFavorites);
-    localStorage.setItem("favoritesLocalStorage", JSON.stringify(newFavorites));
-  }
+function App({ harryPotterData }) {
   return (
-    <div className="App">
-      <Header />
-      {filteredData.map((character) => (
-        <Card
-          key={character.name}
-          characterName={character.name}
-          house={character.house}
-          imgUrl={character.image}
-          actor={character.actor}
-          gender={character.gender}
-          birthday={character.dateOfBirth}
-          yearOfBirth={character.yearOfBirth}
-          onFavoriteButtonClick={handleFavoriteButtonClick}
-          isFavorite={favorites.indexOf(character.name) > -1}
-          favorites={favorites}
-        />
-      ))}
-      <Footer
-        activeHouse={activeHouse}
-        onHouseButtonClick={handleHouseButtonClick}
-      />
-    </div>
+    <Switch>
+      <Route exact path="/">
+        <StyledLink to="/characters">Characters App</StyledLink>
+        <StyledLink to="/harrypotter">Harry Potter App</StyledLink>
+      </Route>
+      <Route path="/characters">
+        <CharacterCreateForm />
+      </Route>
+      <Route path="/harrypotter">
+        <HarryPotterCaharacter data={harryPotterData} />
+      </Route>
+    </Switch>
   );
 }
+
+const StyledLink = styled(Link)`
+  display: inline-block;
+  background-color: lightgray;
+  padding: 5px;
+  text-decoration: none;
+  border-radius: 3px;
+  color: black;
+  margin: 3px;
+`;
 
 export default App;
