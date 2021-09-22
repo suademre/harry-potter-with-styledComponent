@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
-function HarryPotterCaharacter({ data }) {
+function HarryPotterCaharacter(/* { data } */) {
+  const [data, setData] = useState([]);
+
+  //useEffect
+  useEffect(() => {
+    fetch("http://hp-api.herokuapp.com/api/characters")
+      .then((res) => res.json())
+      .then((dataFromServer) => {
+        console.log(dataFromServer);
+        setData(dataFromServer);
+      });
+  }, []);
+
   const [activeHouse, setActiveHouse] = useState("");
 
   function handleHouseButtonClick(house) {

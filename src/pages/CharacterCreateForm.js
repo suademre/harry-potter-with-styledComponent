@@ -42,14 +42,6 @@ function CharacterCreateForm() {
   );
 
   function handleCreateCharacter({ name, house }) {
-    // Add an entry to data with data from the form
-    // const newData = [
-    //   ...data,
-    //   {
-    //     name: "Hermione",
-    //     house: "Gryffindor",
-    //   },
-    // ];
     const newData = [
       ...data,
       {
@@ -60,16 +52,6 @@ function CharacterCreateForm() {
     setData(newData);
   }
 }
-
-const StyledAppCardDiv = styled.div`
-  border: 0px solid #aaa;
-  margin: 15px;
-  padding: 15px;
-  border-radius: 13px;
-
-  box-shadow: 0px 0px 20px #dedede;
-  display: flex;
-`;
 
 const StyledMain = styled.main`
   max-width: 600px;
