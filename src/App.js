@@ -5,7 +5,7 @@ import styled from "styled-components";
 import CharacterCreateForm from "./pages/CharacterCreateForm";
 import HarryPotterCaharacter from "./pages/HarryPotterCaharacter";
 
-function App({ harryPotterData }) {
+function App(/* { harryPotterData } */) {
   return (
     <Switch>
       <Route exact path="/">
@@ -16,7 +16,7 @@ function App({ harryPotterData }) {
         <CharacterCreateForm />
       </Route>
       <Route path="/harrypotter">
-        <HarryPotterCaharacter data={harryPotterData} />
+        <HarryPotterCaharacter /* data={harryPotterData} */ />
       </Route>
     </Switch>
   );
